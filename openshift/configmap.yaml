@@ -1,0 +1,13 @@
+# ConfigMap for OIDC Testing Client configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oidc-testing-client-config
+  labels:
+    app: oidc-testing-client
+data:
+  NODE_ENV: "production"
+  PORT: "3001"
+  # Add any additional configuration here
+  # Example: Default identity provider settings
+  # REACT_APP_DEFAULT_ISSUER: "https://your-idp.example.com"

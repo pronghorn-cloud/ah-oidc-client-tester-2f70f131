@@ -1,0 +1,45 @@
+# OpenShift BuildConfig for OIDC Testing Client
+# Builds the container image from source using Docker strategy
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: oidc-testing-client
+  labels:
+    app: oidc-testing-client
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: oidc-testing-client:latest
+  source:
+    type: Git
+    git:
+      uri: ${GIT_REPOSITORY_URL}
+      ref: ${GIT_BRANCH}
+    contextDir: /
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+      env:
+        - name: NODE_ENV
+          value: "production"
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+  runPolicy: Serial
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: oidc-testing-client
+  labels:
+    app: oidc-testing-client
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+    - name: latest
+      annotations:
+        description: "OIDC Testing Client - Latest build"
+        tags: "nodejs,oauth,oidc"

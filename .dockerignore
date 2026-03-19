@@ -1,0 +1,56 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# Dependencies (will be installed in container)
+node_modules/
+client/node_modules/
+
+# Build artifacts (will be built in container)
+client/build/
+
+# Development files
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Test files
+**/*.test.js
+**/__tests__/
+
+# Scripts (not needed in container)
+scripts/
+
+# OpenShift configs (not needed in container)
+openshift/
+
+# Temporary
+tmp/
+temp/
+*.tmp
+
+# Docker files (avoid recursive)
+Dockerfile*
+docker-compose*

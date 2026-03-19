@@ -1,0 +1,33 @@
+# OIDC Testing Client - Development Dockerfile
+# For local development and testing
+
+FROM --platform=linux/ppc64le registry.access.redhat.com/ubi9/nodejs-18:latest
+
+LABEL name="oidc-testing-client-dev" \
+      version="1.0.0-dev" \
+      description="OIDC Testing Client - Development Image" \
+      architecture="ppc64le"
+
+# Set working directory
+WORKDIR /opt/app-root/src
+
+# Copy all package files
+COPY package*.json ./
+COPY client/package*.json ./client/
+
+# Install all dependencies (including dev)
+RUN npm install && \
+    cd client && npm install
+
+# Copy source code
+COPY . .
+
+# Set environment variables
+ENV NODE_ENV=development \
+    PORT=3001
+
+# Expose ports (3001 for server, 3000 for React dev server)
+EXPOSE 3000 3001
+
+# Start development servers
+CMD ["npm", "run", "dev"]
