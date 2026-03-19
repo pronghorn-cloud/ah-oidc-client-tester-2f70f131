@@ -14,7 +14,7 @@ COPY client/package*.json ./client/
 
 # Install client dependencies
 WORKDIR /opt/app-root/src/client
-RUN npm ci --only=production=false
+RUN npm install
 
 # Copy client source code
 COPY client/ ./
@@ -48,7 +48,7 @@ WORKDIR /opt/app-root/src
 COPY package*.json ./
 
 # Install production dependencies only
-RUN npm ci --only=production && \
+RUN npm install --omit=dev && \
     npm cache clean --force
 
 # Copy server source code
