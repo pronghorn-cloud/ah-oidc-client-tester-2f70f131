@@ -207,6 +207,8 @@ function App() {
               <UserInfo
                 tokens={tokens}
                 selectedProvider={selectedProvider}
+                selectedClient={selectedClient}
+                onTokensReceived={handleTokensReceived}
               />
             }
           />
