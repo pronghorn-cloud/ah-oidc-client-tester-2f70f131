@@ -10,14 +10,13 @@ FROM --platform=linux/ppc64le registry.access.redhat.com/ubi9/nodejs-18:latest A
 WORKDIR /opt/app-root/src
 
 # Copy client package files
-COPY client/package*.json ./client/
+COPY --chown=1001:0 client/package*.json ./client/
 
 # Install client dependencies
 WORKDIR /opt/app-root/src/client
 RUN npm install
 
-# Copy client source code
-COPY client/ ./
+COPY --chown=1001:0 client/ ./
 
 # Build the React application
 ENV NODE_ENV=production
@@ -45,17 +44,17 @@ LABEL name="oidc-testing-client" \
 WORKDIR /opt/app-root/src
 
 # Copy server package files
-COPY package*.json ./
+COPY --chown=1001:0 package*.json ./
 
 # Install production dependencies only
-RUN npm install --omit=dev && \
+RUN npm install --only=production && \
     npm cache clean --force
 
 # Copy server source code
-COPY server/ ./server/
+COPY --chown=1001:0 server/ ./server/
 
 # Copy built React app from frontend-builder stage
-COPY --from=frontend-builder /opt/app-root/src/client/build ./client/build
+COPY --chown=1001:0 --from=frontend-builder /opt/app-root/src/client/build ./client/build
 
 # Set environment variables
 ENV NODE_ENV=production \
